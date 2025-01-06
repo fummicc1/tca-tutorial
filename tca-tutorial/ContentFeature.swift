@@ -20,12 +20,15 @@ struct ContentFeature {
     }
     
     @ObservableState
-    struct State {
+    struct State: Equatable {
         var count: Int = 0
         var fact: String?
         var isLoading: Bool = false
         var isTimerRunning: Bool = false
     }
+    
+    @Dependency(\.continuousClock) var clock
+    @Dependency(\.numberFactClient) var numberFactClient
     
     enum CancelID {
         case timer
@@ -46,9 +49,7 @@ struct ContentFeature {
                 state.fact = nil
                 state.isLoading = true
                 return .run { [count = state.count] send in
-                    let (data, _) = try await URLSession.shared
-                        .data(from: URL(string: "http://numbersapi.com/\(count)")!)
-                    let fact = String(decoding: data, as: UTF8.self)
+                    let fact = try await numberFactClient.fetch(count)
                     await send(.factResponse(fact))
                 }
             case .factResponse(let fact):
@@ -63,8 +64,7 @@ struct ContentFeature {
                 state.isTimerRunning.toggle()
                 if state.isTimerRunning {
                     return .run { send in
-                        while true {
-                            try await Task.sleep(for: .seconds(1))
+                        for await _ in clock.timer(interval: .seconds(1)) {
                             await send(.timerTick)
                         }
                     }.cancellable(id: CancelID.timer)

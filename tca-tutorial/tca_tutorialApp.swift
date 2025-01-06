@@ -10,16 +10,14 @@ import ComposableArchitecture
 
 @main
 struct tca_tutorialApp: App {
+    let store: StoreOf<AppFeature> = StoreOf<AppFeature>(
+        initialState: AppFeature.State()) {
+            AppFeature()
+        }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView(
-                store: Store(
-                    initialState: ContentFeature.State(),
-                    reducer: {
-                        ContentFeature()
-                    }
-                )
-            )
+            AppView(store: store)
         }
     }
 }

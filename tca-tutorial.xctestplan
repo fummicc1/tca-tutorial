@@ -1,0 +1,37 @@
+{
+  "configurations" : [
+    {
+      "id" : "B8EDDC04-78ED-401B-B9BA-49D4FF2C8F30",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:tca-tutorial.xcodeproj",
+      "identifier" : "D38D2F2B2D1D1CEC005024AD",
+      "name" : "tca-tutorial"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:tca-tutorial.xcodeproj",
+        "identifier" : "D38D2F3C2D1D1CEE005024AD",
+        "name" : "tca-tutorialTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:tca-tutorial.xcodeproj",
+        "identifier" : "D38D2F462D1D1CEE005024AD",
+        "name" : "tca-tutorialUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
